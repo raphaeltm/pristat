@@ -1,8 +1,8 @@
 {
   "name": "pristat",
   "version": "0.0.1",
-  "description": "Static site generator built around prismic.",
-  "main": "index.js",
+  "description": "Static site generator built around Prismic.io",
+  "main": "pristat.js",
   "dependencies": {
     "chalk": "^2.1.0",
     "co": "^4.6.0",
