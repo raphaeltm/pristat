@@ -1,0 +1,33 @@
+{
+  "name": "pristat",
+  "version": "0.0.1",
+  "description": "Static site generator built around prismic.",
+  "main": "index.js",
+  "dependencies": {
+    "chalk": "^2.1.0",
+    "co": "^4.6.0",
+    "co-prompt": "^1.0.0",
+    "commander": "^2.11.0",
+    "http-server": "^0.10.0",
+    "mkdirp": "^0.5.1",
+    "prismic-dom": "^1.2.8",
+    "prismic-nodejs": "^1.5.0",
+    "pug": "^2.0.0-rc.2",
+    "rimraf": "^2.6.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "prismic",
+    "static",
+    "site",
+    "generator"
+  ],
+  "bin": {
+    "pristat": "./pristat.js"
+  },
+  "author": "Raphaël Titsworth-Morin",
+  "license": "MIT"
+}
