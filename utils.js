@@ -4,6 +4,7 @@ const rimraf = require('rimraf');
 const fs = require('fs');
 const pug = require('pug');
 const mkdirp = require('mkdirp');
+const ncp = require("ncp").ncp;
 
 let utils = {};
 
@@ -37,6 +38,32 @@ utils.loadConfig = function () {
         }, function(path){
             reject(path);
         })
+    });
+};
+
+utils.mkdir = function (path, opts) {
+    return new Promise((resolve, reject) => {
+        mkdirp(path, opts, function(err){
+            if(err){
+                reject();
+            }
+            else {
+                resolve(path);
+            }
+        })
+    });
+};
+
+utils.ncp = function (source, dest) {
+    return new Promise((resolve, reject) => {
+        ncp(source, dest, (err) => {
+            if(err){
+                reject();
+            }
+            else {
+                resolve();
+            }
+        });
     });
 };
 

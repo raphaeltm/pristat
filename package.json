@@ -10,6 +10,7 @@
     "commander": "^2.11.0",
     "http-server": "^0.10.0",
     "mkdirp": "^0.5.1",
+    "ncp": "^2.0.0",
     "prismic-dom": "^1.2.8",
     "prismic-nodejs": "^1.5.0",
     "pug": "^2.0.0-rc.2",

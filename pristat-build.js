@@ -8,6 +8,7 @@ const pug = require('pug');
 const mkdirp = require('mkdirp');
 const utils = require('./utils');
 const chalk = require('chalk');
+const ncp = require('ncp').ncp;
 
 (async function () {
     let config = await utils.loadConfig();
@@ -30,9 +31,8 @@ const chalk = require('chalk');
     }
 
 
-
     function getLayoutPath(layoutName) {
-        return process.cwd() + '/_layout/' + layoutName + '.pug';
+        return process.cwd() + '/_layouts/' + layoutName + '.pug';
     }
 
     function layoutExists(layoutName) {
@@ -41,19 +41,19 @@ const chalk = require('chalk');
 
     function convertPrismicToObject(content) {
         let obj = {};
-        if(content.constructor === Array){
+        if (content.constructor === Array) {
             obj = [];
         }
         Object.keys(content).map(function (key) {
             let field = content[key];
-            if(!!field && field.constructor === Array){
+            if (!!field && field.constructor === Array) {
                 try {
                     field = PrismicDOM.RichText.asHtml(field);
-                } catch (e){
+                } catch (e) {
                     field = convertPrismicToObject(field);
                 }
             }
-            else if(!!field && field.constructor === Object){
+            else if (!!field && field.constructor === Object) {
                 field = convertPrismicToObject(field);
             }
             obj[key] = field;
@@ -61,11 +61,11 @@ const chalk = require('chalk');
         return obj;
     }
 
-    function getFileFolder(url){
+    function getFileFolder(url) {
         return process.cwd() + "/" + config.buildPath + url;
     }
 
-    function getFilePath(url){
+    function getFilePath(url) {
         return getFileFolder(url) + "index.html"
     }
 
@@ -79,12 +79,12 @@ const chalk = require('chalk');
                 let fileFolder = getFileFolder(pugVars.url);
                 let filePath = getFilePath(pugVars.url);
                 mkdirp(fileFolder, function (err) {
-                    if(err){
+                    if (err) {
                         console.log(err);
                     }
                     else {
-                        fs.writeFile(filePath, rendered, function(err){
-                            if(err){
+                        fs.writeFile(filePath, rendered, function (err) {
+                            if (err) {
                                 console.log(err);
                             }
                         });
@@ -112,13 +112,19 @@ const chalk = require('chalk');
             apiReady.then(function (api) {
                 api.query('').then(function (content) {
                     resolve(content.results);
-                }, function(){console.log("QUERY FAILED")});
-            }, function(){console.log("API NOT READY")});
+                }, function () {
+                    console.log("QUERY FAILED")
+                });
+            }, function () {
+                console.log("API NOT READY")
+            });
         });
     }
 
     function build() {
-        rimraf(config.buildPath, function () {
+        rimraf(`${process.cwd()}/${config.buildPath}`, async function () {
+            await utils.mkdir(`${process.cwd()}/${config.buildPath}`);
+            await utils.ncp(`${process.cwd()}/_assets/`, `${process.cwd()}/${config.buildPath}/assets/`);
             getPages().then(renderPages, function () {
             });
         });
